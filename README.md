@@ -1,4 +1,6 @@
-# geoscape-test
+# dgtek-geoscape
+
+#### [demo](https://garevna.github.io/dgtek-geoscape)
 
 ## Project setup
 ```

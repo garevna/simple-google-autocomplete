@@ -20,5 +20,8 @@ module.exports = {
     themeColor: '#83332C',
     msTileColor: '#FAFAFA'
   },
-  runtimeCompiler: true
+  runtimeCompiler: true,
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/dgtek-geoscape/'
+    : '/'
 }
