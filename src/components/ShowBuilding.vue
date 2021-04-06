@@ -72,7 +72,7 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: process.env.VUE_APP_API_KEY
+          Authorization: process.env.VUE_APP_GEOSCAPE_KEY
         }
       })).json()
       // this.buildingData.centroidCoordinates = JSON.parse(JSON.stringify(this.buildingData.centroid.point.coordinates))

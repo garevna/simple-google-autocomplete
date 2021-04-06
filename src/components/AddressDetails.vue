@@ -1,18 +1,6 @@
 <template>
   <v-card flat class="transparent">
     <v-row justify="center">
-      <v-simple-table>
-        <template v-slot:default>
-          <tbody>
-            <tr v-if="coordinates">
-              <td class="text-left">Coordinates</td>
-              <td class="text-left">{{ coordinates }}</td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-    </v-row>
-    <v-row justify="center">
       <v-simple-table dark>
         <template v-slot:default>
           <thead>
@@ -44,7 +32,7 @@
 
 export default {
   name: '',
-  props: ['addressId', 'relatedBuildingIds'],
+  props: ['addressId', 'geolocation', 'relatedBuildingIds'],
   data: () => ({
     properties: [],
     addressDetails: null,
@@ -52,11 +40,21 @@ export default {
     geoFeature: '',
     coordinates: [],
     geometryType: '',
+    buildings: [],
     buildingIds: []
   }),
   watch: {
+    coordinates: {
+      deep: true,
+      handler (val) {
+        this.$emit('update:geolocation', val)
+      }
+    },
     addressId (val) {
-      if (val) this.getAddressDetails()
+      if (val) {
+        this.getAddressDetails()
+        this.getBuildings()
+      }
     }
   },
   methods: {
@@ -65,7 +63,7 @@ export default {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: process.env.VUE_APP_API_KEY
+          Authorization: process.env.VUE_APP_GEOSCAPE_KEY
         }
       })).json()
 
@@ -77,6 +75,21 @@ export default {
       this.buildingIds = response.relatedBuildingIds
       this.$emit('update:relatedBuildingIds', this.buildingIds)
       this.properties = Object.keys(this.addressDetails)
+    },
+
+    async getBuildings () {
+      const response = await (await fetch(`https://api.psma.com.au/v1/addresses/${this.addressId}/buildings`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: process.env.VUE_APP_GEOSCAPE_KEY
+        }
+      }).catch(err => console.warn(err))).json()
+
+      this.buildings = response.data
+      this.$emit('update:relatedBuildingIds', this.buildingIds)
+
+      return response.data
     }
   },
   mounted () {

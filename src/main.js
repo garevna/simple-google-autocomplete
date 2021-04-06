@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
-import router from './router'
-import store from './store'
 import vuetify from './plugins/vuetify'
 
 import 'dgtek-styles/css/fonts.scss'
@@ -28,8 +26,6 @@ Vue.prototype.getDistance = window.google.maps.geometry.spherical.computeDistanc
 Vue.prototype.LatLng = window.google.maps.LatLng
 
 new Vue({
-  router,
-  store,
   vuetify,
   render: h => h(App)
 }).$mount('#app')
