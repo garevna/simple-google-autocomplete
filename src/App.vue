@@ -1,7 +1,17 @@
 <template>
   <v-app>
     <v-main>
-      <Home />
+      <v-row class="text-center">
+        <v-col cols="12">
+          <v-img
+            :src="require('@/assets/logo.svg')"
+            class="my-3"
+            contain
+            height="80"
+          />
+        </v-col>
+      </v-row>
+      <DgtekGoogleAutocomplete />
     </v-main>
   </v-app>
 </template>
@@ -14,7 +24,7 @@ export default {
   name: 'App',
 
   components: {
-    Home: () => import('@/views/Home')
+    DgtekGoogleAutocomplete: () => import('@/views/DgtekGoogleAutocomplete.vue')
   }
 }
 </script>

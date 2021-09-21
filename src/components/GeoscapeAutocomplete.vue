@@ -18,12 +18,17 @@
         outlined
       />
 
-      <v-btn text @click="$emit('update:value', address)" color="primary">SUBMIT</v-btn>
+      <v-btn text @click="parseAddress" color="primary">
+        SUBMIT
+      </v-btn>
     </v-toolbar>
   </v-row>
 </template>
 
 <script>
+
+import { getGeoscapeVariants, getGeoscapeCoordinates } from '@/helpers'
+
 export default {
   name: 'GeoscapeAutocomplete',
 
@@ -31,34 +36,19 @@ export default {
 
   data: () => ({
     address: '',
-    variants: [],
     loading: false,
-    search: null,
-    google: '',
-    formula: ''
+    search: null
   }),
   computed: {
     addresses () {
       return this.variants.map(item => item.address)
     }
   },
-  watch: {
-    search (val) {
-      val && val !== this.select && this.getVariants(val)
-    }
-  },
+
   methods: {
-    async getVariants (val) {
-      if (val.length < 4) return
+    async parseAddress () {
       this.loading = true
-      this.variants = (await (await fetch(`https://api.psma.com.au/v1/predictive/address?maxNumberOfResults=20&query=${encodeURIComponent(val)}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: process.env.VUE_APP_GEOSCAPE_KEY
-        }
-      })).json()).suggest
-      this.loading = false
+      this.$emit('update:value', window[Symbol.for('global.addressData')].address)
     }
   }
 }

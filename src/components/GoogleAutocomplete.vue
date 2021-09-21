@@ -11,30 +11,47 @@
         placeholder="Address"
       />
 
-      <v-btn text large @click="clickHandler" color="primary">SUBMIT</v-btn>
+      <v-btn text large @click="parseAddress" color="primary">
+        SUBMIT
+      </v-btn>
     </v-toolbar>
   </v-row>
 </template>
 
 <script>
 
-import { createAutocomplete } from '@/helpers'
+import { createAutocomplete, clearAddressData, testAddressStatus, searchAddressInDB } from '@/helpers'
 
 export default {
   name: 'GoogleAutocomplete',
 
-  props: ['value'],
+  props: ['submit', 'process'],
 
   data: () => ({
     ready: false,
     address: ''
   }),
+
   methods: {
-    clickHandler () {
-      this.$emit('update:value', this.$refs.autocompleteAddress.value)
+    async parseAddress () {
+      this.$emit('update:process', true)
+      await searchAddressInDB(window[Symbol.for('global.addressData')].address)
+
+      if (window[Symbol.for('global.addressData')].buildingId) {
+        this.$emit('update:process', false)
+        this.$emit('update:submit', true)
+        return
+      }
+      // if (!window[Symbol.for('global.addressData')].status) await testAddressStatus()
+      await testAddressStatus()
+
+      this.$emit('update:process', false)
+      this.$emit('update:submit', true)
     }
   },
   mounted () {
+    clearAddressData()
+    this.address = ''
     createAutocomplete(this.$refs.autocompleteAddress)
     this.ready = true
   }

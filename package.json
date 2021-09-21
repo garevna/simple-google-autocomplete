@@ -1,28 +1,40 @@
 {
-  "name": "geoscape-test",
-  "version": "0.1.0",
-  "private": true,
+  "name": "dgtek-google-autocomplete",
+  "version": "1.1.4",
+  "private": false,
+  "author": "garevna <irina.h.fylyppova@gmail.com> (https://github.com/garevna)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/garevna/dgtek-google-autocomplete-package.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "package": "vue-cli-service build --target lib --name dgtek-google-autocomplete ./src/views/dgtek-google-autocomplete-index.js",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
+  "files": [
+    "dist/*",
+    "dist/css/*",
+    "README.md"
+  ],
+  "main": "./dist/dgtek-google-autocomplete.common.js",
   "dependencies": {
     "core-js": "^3.6.5",
     "dgtek-styles": "^0.0.8",
-    "register-service-worker": "^1.7.1",
     "vue": "^2.6.11",
     "vuetify": "^2.2.11"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-pwa": "~4.5.0",
-    "@vue/cli-plugin-router": "~4.5.0",
-    "@vue/cli-plugin-unit-jest": "~4.5.0",
-    "@vue/cli-plugin-vuex": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@vue/cli-plugin-babel": "~4.4.0",
+    "@vue/cli-plugin-eslint": "~4.4.0",
+    "@vue/cli-plugin-pwa": "~4.4.0",
+    "@vue/cli-plugin-router": "~4.4.0",
+    "@vue/cli-plugin-unit-jest": "~4.4.0",
+    "@vue/cli-plugin-vuex": "~4.4.0",
+    "@vue/cli-service": "~4.4.0",
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/test-utils": "^1.0.3",
     "babel-eslint": "^10.1.0",

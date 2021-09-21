@@ -1,31 +1,88 @@
-# dgtek-geoscape
+# dgtek-google-autocomplete
 
-#### [demo](https://garevna.github.io/dgtek-geoscape)
+###### Vue, Vuetify
 
-## Project setup
-```
-npm install
-```
+### Package installation
 
-### Compiles and hot-reloads for development
 ```
-npm run serve
+yarn add dgtek-google-autocomplete && rm -r node_modules/dgtek-google-autocomplete/dist/node_modules
 ```
 
-### Compiles and minifies for production
+##### package.json for auto-depoy (CI/CD):
+
+for vue-cli:
+
 ```
-npm run build
+"scripts": {
+  ...
+  "serve": "yarn add dgtek-google-autocomplete && rm -r node_modules/dgtek-google-autocomplete/node_modules && vue-cli-service serve",
+  "build": "yarn add dgtek-google-autocomplete && rm -r node_modules/dgtek-google-autocomplete/node_modules && vue-cli-service build",
+  ...
+}
 ```
 
-### Run your unit tests
-```
-npm run test:unit
+### Start package
+
+```js
+import 'dgtek-google-autocomplete/dist/dgtek-google-autocomplete.css'
+/* ... other imports here */
+const { DgtekGoogleAutocomplete } = require('dgtek-google-autocomplete').default
 ```
 
-### Lints and fixes files
-```
-npm run lint
+You should wait for Google maps script has been loaded in your component
+
+##### data
+
+```js
+data: () => ({
+  mapIsReady: false,
+  /* ... other variables here */
+})
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+##### Catch event
+
+You can change the name of this method (`catchEvent`) to your own
+
+```js
+methods: {
+  /* your own methods here */,
+  catchEvent () {
+    const { address, addressComponents, status, url, coordinates, buildingId, error } = event.detail
+    ... /* your code will be here */
+  }
+}
+```
+<sup>During checking the address, a number of requests will be made to remote server.</sup><br>
+<sup>Every request can fail.</sup><br>
+<sup>`error` field value should be `null` otherwise this field contains error message</sup>
+
+##### mounted hook
+
+```js
+mounted () {
+  function waitForGoogleMapsScript () {
+    if (!window.google) window.requestAnimationFrame(waitForGoogleMapsScript.bind(this))
+    else this.mapIsReady = true
+  }
+
+  window.requestAnimationFrame(waitForGoogleMapsScript.bind(this))
+
+  window.addEventListener('new-address-data', this.catchEvent)
+}
+```
+
+##### beforeDestroy hook
+
+```js
+beforeDestroy () {
+  ...
+  window.removeEventListener('new-address-data', this.catchEvent)
+}
+```
+
+And then insert this package to your component template:
+
+```html
+<DgtekGoogleAutocomplete v-if="mapIsReady" />
+```
