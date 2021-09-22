@@ -25,6 +25,17 @@ export default {
 
   components: {
     DgtekGoogleAutocomplete: () => import('@/views/DgtekGoogleAutocomplete.vue')
+  },
+
+  methods: {
+    showEvent (event) {
+      console.log(event.detail)
+    }
+  },
+
+  mounted () {
+    window[Symbol.for('api.host')] = process.env.NODE_ENV === 'production' ? 'https://portal.dgtek.net' : 'https://dgtek-staging.herokuapp.com'
+    window.addEventListener('new-address-data', this.showEvent)
   }
 }
 </script>

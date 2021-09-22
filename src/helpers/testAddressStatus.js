@@ -1,10 +1,13 @@
-import { host, polygonTypes } from '../configs'
+import { polygonTypes } from '../configs'
+// import { getPolygons } from './getPolygons'
 
 export async function testAddressStatus () {
-  const { lat, lng } = window[Symbol.for('global.addressData')].coordinates
-  // const response = await fetch('https://dka.dgtek.net/api/frontend/polygons')
+  const host = window[Symbol.for('api.host')]
 
+  const { lat, lng } = window[Symbol.for('global.addressData')].coordinates
   const latLng = new window.google.maps.LatLng(lat, lng)
+
+  /* ================= New API ==================== */
 
   window[Symbol.for('global.addressData')].status = 'Not available'
 

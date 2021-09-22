@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-toolbar class="transparent" style="box-shadow: none">
+    <v-toolbar class="transparent" width="640" style="box-shadow: none">
       <v-toolbar-title>
         <h6>Select building</h6>
       </v-toolbar-title>

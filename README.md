@@ -29,6 +29,16 @@ import 'dgtek-google-autocomplete/dist/dgtek-google-autocomplete.css'
 const { DgtekGoogleAutocomplete } = require('dgtek-google-autocomplete').default
 ```
 
+### Set API host
+
+```js
+window.dispatchEvent(new CustomEvent('set-api-host', {
+  detail: {
+    host: 'https://example.com' /* API host url must be here */
+  }
+}))
+```
+
 You should wait for Google maps script has been loaded in your component
 
 ##### data

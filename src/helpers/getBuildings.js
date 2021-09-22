@@ -1,6 +1,8 @@
-import { host } from '../configs'
+// import { host } from '../configs'
 
 export async function getBuildings () {
+  const host = window[Symbol.for('api.host')]
+
   let result = []
   var currentPage = 1
   do {

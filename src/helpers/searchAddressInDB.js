@@ -1,9 +1,10 @@
-import { host } from '../configs'
-
 export async function searchAddressInDB () {
+  const host = window[Symbol.for('api.host')]
+
   Object.assign(window[Symbol.for('global.addressData')], {
     status: null,
-    buildingId: null
+    buildingId: null,
+    estimatedServiceDeliveryTime: ''
   })
 
   const resp = await fetch(`${host}/building/search`, {
@@ -19,9 +20,10 @@ export async function searchAddressInDB () {
 
   if (!response.data) return console.clear()
 
-  const { coordinates, status, _id: buildingId, estimatedServiceDeliveryTime } = response.data
+  const { addressComponents, coordinates, status, _id: buildingId, estimatedServiceDeliveryTime } = response.data
 
   Object.assign(window[Symbol.for('global.addressData')], {
+    addressComponents,
     coordinates,
     status,
     buildingId,

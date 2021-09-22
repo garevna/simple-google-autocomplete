@@ -18,15 +18,11 @@
         <v-btn text outlined @click="step=2" :style="{ borderColor: second, color: second }">
           Google autocomplete
         </v-btn>
-
-        <!-- <v-btn text outlined @click="step=3" :style="{ borderColor: third, color: third }">
-          Additional
-        </v-btn> -->
       </v-row>
 
       <v-stepper-items>
         <v-stepper-content step="1" class="py-4">
-          <v-card flat class="transparent text-center mx-auto py-4" max-width="800">
+          <v-card flat class="transparent text-center mx-auto py-4" min-width="700">
             <SearchInDB :submit.sync="submit" :process.sync="progress" />
           </v-card>
         </v-stepper-content>
@@ -36,24 +32,11 @@
             <GoogleAutocomplete :submit.sync="submit" :process.sync="progress" />
           </v-card>
         </v-stepper-content>
-
-        <!-- <v-stepper-content step="3" height="320">
-          <v-card flat class="transparent text-center mx-auto" max-width="800">
-            <InputAddressByParts :value.sync="address" />
-          </v-card>
-        </v-stepper-content> -->
       </v-stepper-items>
     </v-stepper>
 
     <v-row justify="center">
       <v-card flat class="transparent text-center mx-auto" max-width="800">
-        <!-- <GoogleAutocomplete :value.sync="address" /> -->
-        <!-- <v-card-text text-center>
-          <h4>{{ address }}</h4>
-        </v-card-text> -->
-        <!-- <v-card-text>
-          <p v-if="coordinates">lat: <span>{{ coordinates.lat }}</span>, lng: <span>{{ coordinates.lng }}</span></p>
-        </v-card-text> -->
         <v-row v-if="url" justify="center" align="center">
           <p @click="gotoExternalLink" style="cursor: pointer">
             <b class="mr-2">Look at the map</b>
@@ -76,7 +59,6 @@ export default {
   components: {
     SearchInDB,
     GoogleAutocomplete
-    // InputAddressByParts: () => import('@/components/InputAddressByParts.vue')
   },
   data: () => ({
     step: 2,
@@ -109,6 +91,10 @@ export default {
       this.address = window[Symbol.for('global.addressData')].address
       this.coordinates = window[Symbol.for('global.addressData')].coordinates
       this.url = window[Symbol.for('global.addressData')].url
+    },
+    setAPIHost (event) {
+      window[Symbol.for('api.host')] = event.detail.host
+      console.warn('API host changed:', window[Symbol.for('api.host')])
     }
   },
 
@@ -127,6 +113,10 @@ export default {
 
       this.submit = false
     }
+  },
+
+  mounted () {
+    window[Symbol.for('api.host')] = window[Symbol.for('api.host')] ? window[Symbol.for('api.host')] : process.env.NODE_ENV === 'production' ? 'https://portal.dgtek.net' : 'https://dgtek-staging.herokuapp.com'
   }
 }
 </script>
