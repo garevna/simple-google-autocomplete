@@ -1,17 +1,17 @@
 {
-  "name": "dgtek-google-autocomplete",
-  "version": "1.1.8",
+  "name": "simple-google-autocomplete",
+  "version": "1.0.1",
   "private": false,
-  "author": "garevna <irina.h.fylyppova@gmail.com> (https://github.com/garevna)",
   "license": "MIT",
+  "author": "garevna <irina.h.fylyppova@gmail.com> (https://github.com/garevna)",
   "repository": {
     "type": "git",
-    "url": "https://github.com/garevna/dgtek-google-autocomplete-package.git"
+    "url": "https://github.com/garevna/simple-google-autocomplete-package.git"
   },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "package": "vue-cli-service build --target lib --name dgtek-google-autocomplete ./src/views/dgtek-google-autocomplete-index.js",
+    "package": "vue-cli-service build --target lib --name simple-google-autocomplete ./src/views/simple-google-autocomplete-index.js",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
@@ -20,7 +20,7 @@
     "dist/css/*",
     "README.md"
   ],
-  "main": "./dist/dgtek-google-autocomplete.common.js",
+  "main": "./dist/simple-google-autocomplete.umd.js",
   "dependencies": {
     "core-js": "^3.6.5",
     "dgtek-styles": "^0.0.8",

@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import DgtekGoogleAutocomplete from './DgtekGoogleAutocomplete.vue'
+import SimpleGoogleAutocomplete from './SimpleGoogleAutocomplete.vue'
 
 const Components = {
-  DgtekGoogleAutocomplete
+  SimpleGoogleAutocomplete
 }
 
 Object.keys(Components).forEach(name => {

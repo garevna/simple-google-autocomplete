@@ -1,5 +1,5 @@
 import { streetTypes } from '../configs'
-import { clearAddressData } from './'
+import { clearAddressData, normalizeAddress } from './'
 
 export const createAutocomplete = async function (inputElement) {
   const autocomplete = new window.google.maps.places.Autocomplete(inputElement, { componentRestrictions: { country: 'au' } })
@@ -21,8 +21,6 @@ export const createAutocomplete = async function (inputElement) {
       postal_code: postCode
     } = Object.assign({}, ...place.address_components.map(item => ({ [item.types[0]]: item.short_name })))
 
-    // const geoscapeStreetType = streetTypes.getGeoscapeStreetType(fullStreetName)
-
     const tmp = fullStreetName.toUpperCase().split(' ')
     const googleStreetType = tmp.pop()
 
@@ -41,9 +39,12 @@ export const createAutocomplete = async function (inputElement) {
     Object.assign(window[Symbol.for('global.addressData')], { addressComponents: details })
 
     window[Symbol.for('global.addressData')].address = `${number} ${details.street} ${details.streetType}, ${city.toUpperCase()} ${state} ${postCode}`
-    window[Symbol.for('global.addressData')].coordinates = { lat, lng }
+    window[Symbol.for('global.addressData')].coordinates = [lng, lat]
 
-    inputElement.value = place.formatted_address
+    inputElement.value = normalizeAddress(place.formatted_address)
+    window.dispatchEvent(new CustomEvent('address-selected', {
+      detail: window[Symbol.for('global.addressData')]
+    }))
   })
 
   return autocomplete

@@ -3,8 +3,6 @@ export function clearAddressData () {
     address: '',
     coordinates: null,
     url: null,
-    addressComponents: {},
-    buildingId: null,
-    status: null
+    addressComponents: {}
   })
 }

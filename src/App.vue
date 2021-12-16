@@ -1,17 +1,16 @@
 <template>
   <v-app>
     <v-main>
-      <v-row class="text-center">
-        <v-col cols="12">
-          <v-img
-            :src="require('@/assets/logo.svg')"
-            class="my-3"
-            contain
-            height="80"
+      <v-container>
+        <v-card flat class="transparent mx-auto my-4" max-width="800">
+          <SimpleGoogleAutocomplete
+            submit.sync="submitted"
+            address.sync="address"
+            coordinates.sync="coordinates"
+            url.sync="url"
           />
-        </v-col>
-      </v-row>
-      <DgtekGoogleAutocomplete />
+        </v-card>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -19,23 +18,50 @@
 <script>
 
 import 'dgtek-styles'
+import { loadGoogleMapsScript } from '@/helpers'
 
 export default {
   name: 'App',
 
   components: {
-    DgtekGoogleAutocomplete: () => import('@/views/DgtekGoogleAutocomplete.vue')
+    SimpleGoogleAutocomplete: () => import('@/views/SimpleGoogleAutocomplete.vue')
   },
 
+  // data: () => ({
+  //   submitted: false,
+  //   address: '',
+  //   coordinates: null,
+  //   url: null
+  // }),
+
+  // watch: {
+  //   submitted (val) {
+  //     console.log('submitted: ', val)
+  //     if (!val) return
+  //     console.log(window[Symbol.for('global.addressData')])
+  //     this.submitted = false
+  //   },
+  //   address (val) {
+  //     console.log('ADDRESS: ', val)
+  //     console.log(this.coordinates)
+  //     console.log(this.url)
+  //   },
+  //   url (val) {
+  //     console.log('ADDRESS: ', this.address)
+  //     console.log(this.coordinates)
+  //     console.log(val)
+  //   }
+  // },
+
   methods: {
-    showEvent (event) {
-      console.log(event.detail)
+    catchEvent (event) {
+      console.log('EVENT:\n', event.detail)
     }
   },
 
-  mounted () {
-    window[Symbol.for('api.host')] = process.env.NODE_ENV === 'production' ? 'https://portal.dgtek.net' : 'https://dgtek-staging.herokuapp.com'
-    window.addEventListener('new-address-data', this.showEvent)
+  beforeMount () {
+    loadGoogleMapsScript()
+    window.addEventListener('address-selected', this.catchEvent)
   }
 }
 </script>
@@ -48,6 +74,11 @@ export default {
 
 * {
   outline: none!important;
-  user-select: none!important;
+  /* user-select: none!important; */
+}
+
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
 }
 </style>
